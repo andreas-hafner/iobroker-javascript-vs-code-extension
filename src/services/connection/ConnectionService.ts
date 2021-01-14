@@ -18,7 +18,7 @@ import { IScriptIdService } from '../scriptId/IScriptIdService';
 export class ConnectionService implements IConnectionService {
     public isConnected: Boolean = false;
 
-    private connectionTimeout = 10 * 1000;
+    private connectionTimeout = 30 * 1000;
 
     private connectionEventListeners: Array<IConnectionEventListener> = new Array();
     private scriptEventListeners: Array<IScriptChangedEventListener> = new Array();
@@ -45,13 +45,32 @@ export class ConnectionService implements IConnectionService {
 
         return new Promise<void>((resolve, reject) => {
             this.client = socketio(uri.toString());
-            this.registerSocketEvents();
+            // this.registerSocketEvents();
 
             this.client.on("connect", () => {
                 this.isConnected = true;
                 message.dispose();
                 resolve();
             });
+
+            this.client.on("error", (err: any) => {
+                // user not logged in: Passport was not initialized
+                console.log(err);
+            });
+
+            // this.client.on("authenticate", (user: any, pass: any) => {
+            //     console.log(user);
+            //     console.log(pass);
+            // });
+
+            // this.client.emit("authenticate", (a: any, b: any) => {
+            //     console.log(a);
+            //     console.log(b);
+            // });
+
+            // this.client.emit("getVersion", (a: any) => {
+            //     console.log(a);
+            // });
 
             setTimeout(() => {
                 if (!this.isConnected) {
