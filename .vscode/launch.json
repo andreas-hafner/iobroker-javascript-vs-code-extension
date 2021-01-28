@@ -22,6 +22,7 @@
 			"type": "extensionHost",
 			"request": "launch",
 			"args": [
+				"${workspaceFolder}/test-data/",
 				"--extensionDevelopmentPath=${workspaceFolder}",
 				"--extensionTestsPath=${workspaceFolder}/out/test/suite/index"
 			],
@@ -29,6 +30,19 @@
 				"${workspaceFolder}/out/test/**/*.js"
 			],
 			"preLaunchTask": "npm: test-watch"
-		}
+		},
+		{
+			"name": "Extension Tests 2",
+			"type": "extensionHost",
+			"request": "launch",
+			"runtimeExecutable": "${execPath}",
+			"args": [
+				"--disable-extensions",
+				"--extensionDevelopmentPath=${workspaceFolder}",
+				"--extensionTestsPath=${workspaceFolder}/out/test/suite/index",
+				"./test-data/"
+			],
+			"outFiles": ["${workspaceFolder}/out/test/**/*.js"]
+		  }
 	]
 }

@@ -24,7 +24,7 @@ async function main() {
 		await runTests({ 
 			extensionDevelopmentPath, 
 			extensionTestsPath,
-			launchArgs: [tempDir]
+			launchArgs: ['--disable-extensions', tempDir]
 		});
 
 		fs.rmdirSync(tempDir, { recursive: true });
