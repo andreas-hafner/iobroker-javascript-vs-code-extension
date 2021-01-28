@@ -15,9 +15,10 @@ suite('Extension Test Suite', () => {
 		mockShowInputBox
 			.onFirstCall().resolves("http://localhost")
 			.onSecondCall().resolves("8081")
-			.onThirdCall().resolves("/")
+			.onThirdCall().resolves("/");
 
-		let mockQuickPick = sinon.stub(vscode.window, "showQuickPick");
+		let mockQuickPick = sinon.stub(vscode.window, 'showQuickPick');
+
 		mockQuickPick
 			.onFirstCall().resolves({label: "Yes"});
 		
@@ -26,6 +27,16 @@ suite('Extension Test Suite', () => {
 		
 		if(configFile.length !== 1) {
 			assert.fail("Couldn't find iobroker-config.json");
+		}
+	});
+
+	test('Download all', async() => {
+		await vscode.commands.executeCommand("iobroker-javascript.downloadAll");
+		
+		const scriptFiles = await vscode.workspace.findFiles("**/*.js");
+		console.log(`Found ${scriptFiles.length} js files`);
+		if(scriptFiles.length === 0) {
+			assert.fail("Couldn't find any downloaded script files");
 		}
 	});
 });
