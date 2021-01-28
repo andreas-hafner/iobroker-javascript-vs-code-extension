@@ -9,7 +9,7 @@ import * as vscode from 'vscode';
 suite('Extension Test Suite', () => {
 	vscode.window.showInformationMessage('Start all tests.');
 
-	test('Connect test', async () => {
+	test('iobroker-javascript.connect', async () => {
 
 		let mockShowInputBox = sinon.stub(vscode.window, 'showInputBox');
 		mockShowInputBox
@@ -20,7 +20,8 @@ suite('Extension Test Suite', () => {
 		let mockQuickPick = sinon.stub(vscode.window, 'showQuickPick');
 
 		mockQuickPick
-			.onFirstCall().resolves({label: "Yes"});
+			.onFirstCall().resolves({label: "Yes"})
+			.onSecondCall().resolves({label: "Yes"});
 		
 		await vscode.commands.executeCommand("iobroker-javascript.connect");
 		const configFile = await vscode.workspace.findFiles(".iobroker-config.json");
@@ -30,7 +31,7 @@ suite('Extension Test Suite', () => {
 		}
 	});
 
-	test('Download all', async() => {
+	test('iobroker-javascript.downloadAll', async() => {
 		await vscode.commands.executeCommand("iobroker-javascript.downloadAll");
 		
 		const scriptFiles = await vscode.workspace.findFiles("**/*.js");
@@ -38,5 +39,25 @@ suite('Extension Test Suite', () => {
 		if(scriptFiles.length === 0) {
 			assert.fail("Couldn't find any downloaded script files");
 		}
+	});
+
+	test('iobroker-javascript.download', async() => {
+
+	});
+
+	test('iobroker-javascript.upload', async() => {
+
+	});
+
+	test('iobroker-javascript.startScript', async() => {
+
+	});
+
+	test('iobroker-javascript.stopScript', async() => {
+
+	});
+
+	test('iobroker-javascript.updateTypeDefinition', async() => {
+
 	});
 });
