@@ -1,5 +1,6 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import * as os from 'os';
 
 import { runTests } from 'vscode-test';
 
@@ -12,7 +13,12 @@ async function main() {
 		// The path to test runner
 		// Passed to --extensionTestsPath
 		const extensionTestsPath = path.resolve(__dirname, './suite/index');
-		const tempDir = fs.mkdtempSync("vscode-iobroker-js-test");
+
+		if (!fs.existsSync("test-data")){
+			fs.mkdirSync("test-data");
+		}
+
+		const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'foo-'));
 
 		// Download VS Code, unzip it and run the integration test
 		await runTests({ 
@@ -20,8 +26,10 @@ async function main() {
 			extensionTestsPath,
 			launchArgs: [tempDir]
 		});
+
+		fs.rmdirSync(tempDir, { recursive: true });
 	} catch (err) {
-		console.error('Failed to run tests');
+		console.error(`Failed to run tests: ${err}`);
 		process.exit(1);
 	}
 }
