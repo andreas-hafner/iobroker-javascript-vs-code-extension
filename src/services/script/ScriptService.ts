@@ -58,4 +58,8 @@ export class ScriptService implements IScriptService {
             await this.saveToFile(script);
         }
     }
+
+    findAllScriptsRecursively(startDirectory: Uri): Promise<Uri[]> {
+        return this.fileService.findFilesRecursivly(startDirectory, ["js", "ts", "block"]);
+    }
 }

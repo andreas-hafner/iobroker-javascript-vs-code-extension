@@ -55,4 +55,9 @@ export class FileService implements IFileService {
             });
         });
     }
+
+    async findFilesRecursivly(startDirectory: Uri, extensions: string[]): Promise<Uri[]> {
+        const globPattern = `${startDirectory.path}/**/*.{${extensions.join(",")}}`;
+        return await workspace.findFiles(globPattern);
+    }
 }
